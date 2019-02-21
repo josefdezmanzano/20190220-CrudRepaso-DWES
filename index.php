@@ -21,7 +21,7 @@ and open the template in the editor.
         $dbc = new Conexion();
         $conexion = $dbc->getLlave();
         $alumno = new Alumnos($conexion);
-    
+
         $stmt = $alumno->read();
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             echo "$fila->id";
@@ -30,6 +30,10 @@ and open the template in the editor.
             echo "$fila->foto";
             echo "$fila->perfil";
         }
+
+
+        $stmt = null;
+        $conexion = null;
         ?>
     </body>
 </html>

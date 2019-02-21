@@ -19,7 +19,21 @@ and open the template in the editor.
         $nombre = "este es nuevo";
         $apellidos = "Mamamio";
         $foto = "img/default";
-        $perfil="1";
+        $perfil = "1";
+        /*
+          if (is_uploaded_file($_FILES['foto']['tmp_name'])) {
+          //print_r($_FILES['portada']);
+          $permitidos = array('image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/tiff', 'img/bmp');
+          if (!in_array($_FILES['foto']['type'], $permitidos)) {
+          echo "El archivo debe ser una imagen!!!!!!!!!!!!!";
+          die();
+          }
+          $dir_uploads = 'img/avatares/';
+          $nombreF1 = $_FILES['foto']['name'];
+          $id_time = time();
+          $nombreF2 = $dir_uploads . $id_time . '-' . $nombreF1;
+          move_uploaded_file($_FILES['foto']['tmp_name'], $nombreF2);
+          $foto = $nombreF2; */
 
         $dbc = new Conexion();
 
@@ -28,6 +42,9 @@ and open the template in the editor.
         $alumno = new Alumnos($conexion, $nombre, $apellidos, $foto, $perfil);
 
         $stmt = $alumno->create();
+        
+        $stmt= null;
+        $conexion=null;
         ?>
     </body>
 </html>

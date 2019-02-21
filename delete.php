@@ -26,7 +26,11 @@ and open the template in the editor.
 
         $alumno = new Alumnos($conexion, $id);
 
-        $stmt = $alumno->delete()
+        $stmt = $alumno->delete();
+        
+        
+         $stmt= null;
+        $conexion=null;
         ?>
     </body>
 </html>
