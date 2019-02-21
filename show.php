@@ -14,15 +14,16 @@ and open the template in the editor.
         require './clases/' . $clase . '.php';
     });
     ?>
-
     <body>
         <?php
-        //creamos la conexion 
+        $id = "6";
         $dbc = new Conexion();
+
         $conexion = $dbc->getLlave();
-        $alumno = new Alumnos($conexion);
-    
-        $stmt = $alumno->read();
+
+        $alumno = new Alumnos($conexion, $id);
+
+        $stmt = $alumno->show();
         while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
             echo "$fila->id";
             echo " $fila->nombre";

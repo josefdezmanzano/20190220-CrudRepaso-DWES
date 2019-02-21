@@ -14,22 +14,20 @@ and open the template in the editor.
         require './clases/' . $clase . '.php';
     });
     ?>
-
     <body>
         <?php
-        //creamos la conexion 
+        $nombre = "este es nuevo";
+        $apellidos = "Mamamio";
+        $foto = "img/default";
+        $perfil="1";
+
         $dbc = new Conexion();
+
         $conexion = $dbc->getLlave();
-        $alumno = new Alumnos($conexion);
-    
-        $stmt = $alumno->read();
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            echo "$fila->id";
-            echo " $fila->nombre";
-            echo " $fila->apellidos";
-            echo "$fila->foto";
-            echo "$fila->perfil";
-        }
+
+        $alumno = new Alumnos($conexion, $nombre, $apellidos, $foto, $perfil);
+
+        $stmt = $alumno->create();
         ?>
     </body>
 </html>

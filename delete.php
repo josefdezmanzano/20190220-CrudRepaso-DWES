@@ -9,27 +9,24 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title></title>
     </head>
-    <?php
+    <?php  
     spl_autoload_register(function ($clase) {
         require './clases/' . $clase . '.php';
     });
     ?>
-
     <body>
         <?php
-        //creamos la conexion 
+        $id = "1";
+        $nombre = "este no";
+        $apellidos = "Mamamio";
+        $foto = "img/default";
+
         $dbc = new Conexion();
         $conexion = $dbc->getLlave();
-        $alumno = new Alumnos($conexion);
-    
-        $stmt = $alumno->read();
-        while ($fila = $stmt->fetch(PDO::FETCH_OBJ)) {
-            echo "$fila->id";
-            echo " $fila->nombre";
-            echo " $fila->apellidos";
-            echo "$fila->foto";
-            echo "$fila->perfil";
-        }
+
+        $alumno = new Alumnos($conexion, $id);
+
+        $stmt = $alumno->delete()
         ?>
     </body>
 </html>

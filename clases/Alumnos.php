@@ -11,15 +11,17 @@
  *
  * @author seillo
  */
-class Alumnos
-{
+class Alumnos {
+
+    private $id;
     private $conexion;
     private $tablas = 'alumnos';
     private $nombre;
     private $apellidos;
     private $foto;
-    public function __construct()
-    {
+    private $perfil;
+
+    public function __construct() {
         $parametros = func_get_args();
         $numParams = func_num_args();
         $funcion_constructor = '__construct' . $numParams;
@@ -27,71 +29,96 @@ class Alumnos
             call_user_func_array(array($this, $funcion_constructor), $parametros);
         }
     }
-    public function __construct1($conexion)
-    {
+
+    public function __construct1($conexion) {
         $this->conexion = $conexion;
     }
-    public function __construct4($conexion, $nombre, $apellidos, $foto)
-    {
+
+    public function __construct2($conexion, $id) {
+        $this->id = $id;
+        $this->conexion = $conexion;
+    }
+
+    public function __construct4($conexion, $nombre, $apellidos, $foto) {
         $this->conexion = $conexion;
         $this->nombre = $nombre;
         $this->apellidos = $apellidos;
         $this->foto = $foto;
     }
-    /**
-     * Inserta un Personaje en la base de datos
-     *
-     * @return $stmt
-     */
-    /*
-    public function create($conexion)
-    {
-        $insert = "insert into personajes(nombre, apellidos,biografia,categoria,wanted,foto) 
-        values (:nombre,:apellidos,:biografia,:categoria,:wanted,:foto)";
-        $stmt = $conexion->prepare($insert);
+
+    
+        public function __construct5($conexion, $nombre, $apellidos, $foto, $perfil) {
+        $this->conexion = $conexion;
+        $this->nombre = $nombre;
+        $this->apellidos = $apellidos;
+        $this->foto = $foto;
+        $this->perfil=$perfil;
+    }
+         public function __construct6($conexion, $id, $nombre, $apellidos, $foto, $perfil) {
+        $this->conexion = $conexion;
+        $this->id=$id;
+        $this->nombre = $nombre;
+        $this->apellidos = $apellidos;
+        $this->foto = $foto;
+        $this->perfil=$perfil;
+    }
+
+    //ACCIONES
+    public function create() {
+
+        $insert = "insert into alumnos(nombre, apellidos, foto, perfil)
+        values (:nombre,:apellidos,:foto,:perfil)";
+        $stmt = $this->conexion->prepare($insert);
+        $stmt->execute(
+                array(
+                    ':nombre' => $this->nombre,
+                    ':apellidos' => $this->apellidos,
+                    ':foto' => $this->foto,
+                    ':perfil'=> $this->perfil
+        ));
         return $stmt;
-    }*/
-    /**
-     * Muestra los datos de la tabla Personajes
-     *
-     * @return void
-     */
-    public function read()
-    {
+    }
+
+    public function read() {
         $query = 'select * from ' . $this->tablas . ' order by id asc';
-        //preparamos la consulta
         $stmt = $this->conexion->prepare($query);
-        //ejecutamos
-        //si elegimos devolver los datos en array asociativo
-        //$stmt->setFetchMode(PDO::FETCH_CLASS, 'alumnos');
         $stmt->execute();
         return $stmt;
     }
-    /*
-    public function update($conexion)
-    {
-        $update = "UPDATE personajes 
-        SET  nombre = :nombre, apellidos=:apellidos,biografia=:biografia,categoria = :categoria, wanted=:wanted,foto = :foto
-        WHERE id = :id";
-        $stmt = $conexion->prepare($update);
+
+    public function update() {
+
+        $update = "UPDATE alumnos SET nombre=:nombre, apellidos=:apellidos,foto=:foto
+        WHERE id=:id";
+
+        $stmt = $this->conexion->prepare($update);
+
+        $stmt->execute(
+                array(
+                    ':nombre' => $this->nombre,
+                    ':apellidos' => $this->apellidos,
+                    ':foto' => $this->foto,
+                    ':id' => $this->id
+        ));
+
+
         return $stmt;
     }
-    public function delete($conexion)
-    {
-        $delete="DELETE FROM personajes WHERE id=:id";
-        $stmt=$conexion->prepare($delete);
+
+    public function delete() {
+        $delete = "DELETE FROM alumnos WHERE id=:id";
+        $stmt = $this->conexion->prepare($delete);
+        $stmt->execute(array(':id' => $this->id));
         return $stmt;
     }
-    public function show($conexion)
-    {
+
+    public function show() {//detalles
         $query = 'select * from ' . $this->tablas . ' where id=:id';
         //preparamos la consulta
-        $stmt = $conexion->prepare($query);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        //ejecutamos
-        //si elegimos devolver los datos en array asociativo
-        //$stmt->setFetchMode(PDO::FETCH_CLASS, 'alumnos');
-        $stmt->execute();
+        $stmt = $this->conexion->prepare($query);
+        // $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute(array(':id' => $this->id));
         return $stmt;
-    }*/
+    }
+
 }
